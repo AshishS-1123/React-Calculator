@@ -20,7 +20,11 @@ class Calculator extends React.Component {
 
     render()
     {
-
+		const onClickCall = (e) => {
+			let temp_state = handleEvent(e, this.state)
+			
+			this.setState(temp_state)
+		}
 
         const style = {
             height: "80vh", 
