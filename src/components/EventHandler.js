@@ -35,6 +35,72 @@ function process_operator(opr, state)
 	return state
 }
 
+function process_functional(functional, state)
+{
+	// if '=' is pressed, then compute result and change in state
+	if(functional === "=")
+	{
+		let ans = parseInt(state.operand_1.value)
+		
+		if(state.operator === "+")
+		{
+			ans += parseInt(state.operand_2.value)
+			console.log("in plus")
+		}
+		else if(state.operator === "-")
+			ans -= parseInt(state.operand_2.value)
+		else if(state.operator === "x")
+			ans *= parseInt(state.operand_2.value)
+		else if(state.operator === "/")
+		{
+			if(state.operand_2.value === 0)
+				ans = "undefined"
+			else
+				ans /= parseInt(state.operand_2.value)
+		}
+		else
+			ans %= parseInt(state.operand_2.value)
+
+		state = {...state, answer: ans}
+		return state
+	}
+	else if(functional === "DEL")
+	{
+		// if no operator
+		if(state.operator === "")
+		{
+			const new_operand = (state.operand_1.value - state.operand_1.value % 10) / 10
+			// delete from first operand
+			state = {...state, operand_1: {...state.operand_1, value: new_operand} }
+
+			return state
+		}
+		else
+		{
+			const new_operand = (state.operand_2.value - state.operand_2.value % 10) / 10
+			state = {...state, operand_2: {...state.operand_2, value: new_operand} }
+
+			return state
+		}
+	}
+	else if(functional === "C")
+	{
+		state = {...state, 
+				 answer: "",
+				 operand_1: {...state.operand_1, value: 0, is_decimal: false},
+				 operand_2: {...state.operand_2, value: 0, is_decimal: false},
+				 operator: ""
+		}
+
+		return state
+	}
+}
+
+function process_decimal(state)
+{
+	// if decimal is given
+}
+
 function handleEvent(key_event, state)
 {
 	const key_pressed = key_event.target.id.slice(4,7)
