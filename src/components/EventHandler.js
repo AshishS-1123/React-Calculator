@@ -1,3 +1,32 @@
+/*
+state = operator
+		operand_1
+		operand_2
+		answer
+*/
+function process_number(num, state)
+{
+	let final_operand = 0;
+
+	// if there is no operator
+	if( state.operator === "" )
+	{
+		final_operand = state.operand_1.value * 10 + num
+		state = {...state, operand_1: {...state.operand_1, value: final_operand} }
+
+		return state
+	}
+
+	// if operator is present
+	else
+	{
+		final_operand = state.operand_2.value * 10 + num
+		state = {...state, operand_2: {...state.operand_2, value: final_operand} }
+
+		return state
+	}
+	
+}
 
 function handleEvent(key_event, state)
 {
