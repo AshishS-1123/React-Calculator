@@ -28,6 +28,13 @@ function process_number(num, state)
 	
 }
 
+function process_operator(opr, state)
+{
+	state = {...state, operator: opr}
+
+	return state
+}
+
 function handleEvent(key_event, state)
 {
 	const key_pressed = key_event.target.id.slice(4,7)
