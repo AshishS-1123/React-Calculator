@@ -32,7 +32,7 @@ function ResultDisplay(props)
 
     return (
         <div style = {div_style}>
-            <h2 style = {h2_style}>0.00</h2>
+            <h2 style = {h2_style}>{props.result}</h2>
         </div>
     )
 }
