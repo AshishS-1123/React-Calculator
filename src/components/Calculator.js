@@ -6,15 +6,16 @@ import handleEvent from "./EventHandler"
 
 function Calculator() {
 	const [state, setState] = React.useState( {
-		answer: "0",
-		operand_1: {value: 0, is_decimal: false}, 
-		operand_2: {value: 0, is_decimal: false}, 
-		operator: "" 
+		result: "",
 	} );
 
 
 	const onClickCall = (e) => {
+        console.log(e)
+        console.log(typeof(handleEvent))
 	    const new_state = handleEvent(e, state)	
+        console.log(new_state)
+        console.log(state)
 		setState(new_state)
 	}
 
@@ -37,7 +38,7 @@ function Calculator() {
         
     return (
         <div style = {style}>
-			<ResultDisplay result = {state.answer}/>
+			<ResultDisplay result = {state.result}/>
 			<Keypad call={onClickCall} />
         </div>
     );
