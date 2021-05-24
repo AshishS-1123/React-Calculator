@@ -31,7 +31,7 @@ function ResultDisplay(props)
     }
 
     return (
-        <div style = {div_style}>
+        <div style = {div_style} id = "display">
             <h2 style = {h2_style}>{props.result}</h2>
         </div>
     )

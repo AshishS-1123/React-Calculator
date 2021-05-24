@@ -38,6 +38,8 @@ function process_operator(opr, state)
     if(state.operand_1.value === 0)
         state = {...state, operand_1: {...state.operand_1, value: state.answer}}
     const ans = state.answer + String(opr)
+    console.log(ans)
+    console.log(state)
 
 	state = {...state, operator: opr, answer: ans}
 
@@ -136,38 +138,50 @@ function process_decimal(state)
 
 function handleEvent(key_event, state)
 {
-	const key_pressed = key_event.target.id.slice(4,7)
+	const key_pressed = key_event.target.id
 	console.log("press", key_pressed)
 
 	//process_number(parseInt(key_pressed), state)
 		
 	switch( key_pressed )
 	{
-		case "1":
-		case "2":
-		case "3":
-		case "4":
-		case "5":
-		case "6":
-		case "7":
-		case "8":
-		case "9":
-		case "0": state = {...state, ...process_number(parseInt(key_pressed), state)}
-				  console.log(state)
+		case "one": state = {...state, ...process_number(1, state)}
+                    break
+		case "two": state = {...state, ...process_number(2, state)}
+                    break
+		case "three": state = {...state, ...process_number(3, state)}
+                    break
+		case "four": state = {...state, ...process_number(4, state)}
+                    break
+		case "five": state = {...state, ...process_number(5, state)}
+                    break
+		case "six": state = {...state, ...process_number(6, state)}
+                    break
+		case "seven": state = {...state, ...process_number(7, state)}
+                    break
+		case "eight": state = {...state, ...process_number(8, state)}
+                    break
+		case "nine": state = {...state, ...process_number(9, state)}
+                    break
+		case "zero": state = {...state, ...process_number(0, state)}
 				  break
-		case "+":
-		case "-":
-		case "x":
-		case "/":
-		case "%": state = {...state, ...process_operator(key_pressed, state) }
-				  console.log(state)
+		case "add": state = {...state, ...process_operator("+", state) }
 				  break
-		case ".0": process_decimal(state)
+		case "subtract": state = {...state, ...process_operator("-", state) }
+				  break
+		case "multiply": state = {...state, ...process_operator("*", state) }
+				  break
+		case "divide": state = {...state, ...process_operator("/", state) }
+				  break
+		case "mod": state = {...state, ...process_operator("%", state) }
+				  break
+		case "decimal": process_decimal(state)
 				   break
-		case "C":
-		case "DEL":
-		case "=": state = {...state, ...process_functional(key_pressed, state) }
-				  console.log(state)
+		case "clear": state = {...state, ...process_functional("C", state) }
+				  break
+		case "DEL": state = {...state, ...process_functional("DEL", state) }
+				  break
+		case "equals": state = {...state, ...process_functional("=", state) }
 				  break
 		default: break
 	}
