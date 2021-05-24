@@ -22,12 +22,10 @@ function process_number(num, state)
 		state = {...state, operand_2: {...state.operand_2, value: final_operand} }
 	}
 	
-    console.log("in num", state.operand_1.value, state.operator, state.operand_2.value)
     let ans = String(state.operand_1.value) + 
                 String(state.operator);
-    console.log("ans was", ans, "add 2", String(state.operand_2.value))
-    console.log("becomes", ans + String(state.operand_2.value))
-    if(state.operand_2.value != 0)
+
+    if(state.operand_2.value !== 0)
         ans += String(state.operand_2.value)
     state = {...state, answer: ans}
 
@@ -36,7 +34,12 @@ function process_number(num, state)
 
 function process_operator(opr, state)
 {
-	state = {...state, operator: opr}
+    // if there is no operand 1
+    if(state.operand_1.value === 0)
+        state = {...state, operand_1: {...state.operand_1, value: state.answer}}
+    const ans = state.answer + String(opr)
+
+	state = {...state, operator: opr, answer: ans}
 
 	return state
 }
@@ -64,10 +67,17 @@ function process_functional(functional, state)
 			else
 				ans /= parseInt(state.operand_2.value)
 		}
-		else
+		else if(state.operator === "%")
 			ans %= parseInt(state.operand_2.value)
-
-		state = {...state, answer: ans}
+        // invalid input corner case
+        else
+            ans = "0"
+        
+        const empty_operand = {value: 0, is_decimal: false}
+		state = {...state, answer: ans, operator: "", 
+                    operand_1:{...state.operand_1, ...empty_operand}, 
+                    operand_2: {...state.operand_2, ...empty_operand}}
+        
 		return state
 	}
 	else if(functional === "DEL")
@@ -76,15 +86,32 @@ function process_functional(functional, state)
 		if(state.operator === "")
 		{
 			const new_operand = (state.operand_1.value - state.operand_1.value % 10) / 10
+            const ans = String(new_operand) 
+
 			// delete from first operand
-			state = {...state, operand_1: {...state.operand_1, value: new_operand} }
+			state = {...state, operand_1: {...state.operand_1, value: new_operand}, answer: ans}
 
 			return state
 		}
+        // if operator present
 		else
 		{
+            // if not operand_2
+            if(state.operand_2.value === 0)
+            {
+                const ans = state.operand_1.value
+                state = {...state, operator: "", answer: ans}
+
+                return state
+            }
+
 			const new_operand = (state.operand_2.value - state.operand_2.value % 10) / 10
-			state = {...state, operand_2: {...state.operand_2, value: new_operand} }
+
+            let ans = String(state.operand_1.value) + String(state.operator);
+            if(new_operand !== 0) 
+                ans += String(new_operand);
+
+			state = {...state, operand_2: {...state.operand_2, value: new_operand}, answer: ans}
 
 			return state
 		}
@@ -92,7 +119,7 @@ function process_functional(functional, state)
 	else if(functional === "C")
 	{
 		state = {...state, 
-				 answer: "",
+				 answer: "0",
 				 operand_1: {...state.operand_1, value: 0, is_decimal: false},
 				 operand_2: {...state.operand_2, value: 0, is_decimal: false},
 				 operator: ""
