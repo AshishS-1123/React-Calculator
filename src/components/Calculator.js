@@ -6,7 +6,7 @@ import handleEvent from "./EventHandler"
 
 function Calculator() {
 	const [state, setState] = React.useState( {
-		answer: "0.00",
+		answer: "0",
 		operand_1: {value: 0, is_decimal: false}, 
 		operand_2: {value: 0, is_decimal: false}, 
 		operator: "" 

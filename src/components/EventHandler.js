@@ -13,8 +13,6 @@ function process_number(num, state)
 	{
 		final_operand = state.operand_1.value * 10 + num
 		state = {...state, operand_1: {...state.operand_1, value: final_operand} }
-
-		return state
 	}
 
 	// if operator is present
@@ -22,10 +20,18 @@ function process_number(num, state)
 	{
 		final_operand = state.operand_2.value * 10 + num
 		state = {...state, operand_2: {...state.operand_2, value: final_operand} }
-
-		return state
 	}
 	
+    console.log("in num", state.operand_1.value, state.operator, state.operand_2.value)
+    let ans = String(state.operand_1.value) + 
+                String(state.operator);
+    console.log("ans was", ans, "add 2", String(state.operand_2.value))
+    console.log("becomes", ans + String(state.operand_2.value))
+    if(state.operand_2.value != 0)
+        ans += String(state.operand_2.value)
+    state = {...state, answer: ans}
+
+	return state
 }
 
 function process_operator(opr, state)
