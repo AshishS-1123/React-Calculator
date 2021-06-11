@@ -5,18 +5,11 @@ import Keypad from "./Keypad"
 import handleEvent from "./EventHandler"
 
 function Calculator() {
-	const [state, setState] = React.useState( {
-		result: "",
-	} );
-
+    const [result, setResult] = React.useState("0");
 
 	const onClickCall = (e) => {
-        console.log(e)
-        console.log(typeof(handleEvent))
-	    const new_state = handleEvent(e, state)	
-        console.log(new_state)
-        console.log(state)
-		setState(new_state)
+	    const new_result = handleEvent(e, result)	
+		setResult(new_result)
 	}
 
     const style = {
@@ -38,7 +31,7 @@ function Calculator() {
         
     return (
         <div style = {style}>
-			<ResultDisplay result = {state.result}/>
+			<ResultDisplay result = {result}/>
 			<Keypad call={onClickCall} />
         </div>
     );
